@@ -20,7 +20,7 @@ Artefactos listos para despliegue y consumo vía app o API
 ---
 🚀 Simulador 👉 Streamlit App
 
-(enlace a agregar)
+https://sl-online-retail-2.streamlit.app
 
 Funcionalidades:
 
@@ -145,3 +145,4 @@ El entrenamiento, validación y tuning del modelo forman parte del flujo de desa
 Steve Loveday
 
 Data Scientist – Business Analytics & Predictive Modeling
+
