@@ -59,25 +59,6 @@ Definición de Abandono
 Un cliente se considera en abandono si no ha realizado compras en los últimos 90 días.
 
 ---
-🧩 Feature Engineering (Customer-Level)
-
-Variables construidas:
-
-recency_days
-
-frequency
-
-monetary
-
-avg_order_value
-
-tenure_days
-
-purchase_velocity
-
-Estas métricas capturan valor, frecuencia, temporalidad y dinámica de compra.
-
----
 🧠 Segmentación de Clientes
 
 Algoritmo: KMeans
@@ -152,10 +133,6 @@ Batch scoring
 
 Dashboard ejecutivo
 
-▶️ Ejecución Local
-pip install -r requirements.txt
-streamlit run app.py
-
 ---
 ⚠️ Notas
 
@@ -166,4 +143,5 @@ El entrenamiento, validación y tuning del modelo forman parte del flujo de desa
 👤 Autor
 
 Steve Loveday
+
 Data Scientist – Business Analytics & Predictive Modeling
