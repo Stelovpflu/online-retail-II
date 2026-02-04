@@ -55,57 +55,67 @@ features = metadata.get(
 # -----------------------------------------
 st.sidebar.header("🛠 Ajuste de Variables del Cliente")
 
-input_data = {
-    "recency_days": st.sidebar.slider(
-        "Días desde la última compra",
-        min_value=0,
-        max_value=750,
-        value=90,
-        help="Cuántos días han pasado desde la última transacción del cliente"
-    ),
+recency_days = st.sidebar.slider(
+    "Días desde la última compra",
+    min_value=0,
+    max_value=750,
+    value=90,
+    help="Cuántos días han pasado desde la última transacción del cliente"
+)
 
-    "frequency": st.sidebar.slider(
-    "Frecuencia de compra (n° de pedidos)",
+frequency = st.sidebar.slider(
+    "Cantidad total de compras",
     min_value=1,
     max_value=400,
     value=5,
-    help="Número total de compras realizadas por el cliente (conteo absoluto)"
-    ),
+    help="Número total de pedidos realizados por el cliente (conteo absoluto)"
+)
 
-    "monetary": st.sidebar.slider(
-        "Gasto total del cliente",
-        min_value=0.0,
-        max_value=60000.0,
-        value=500.0,
-        step=50.0,
-        help="Monto total gastado por el cliente"
-    ),
+monetary = st.sidebar.slider(
+    "Gasto total del cliente",
+    min_value=0.0,
+    max_value=60000.0,
+    value=500.0,
+    step=50.0,
+    help="Monto total acumulado gastado por el cliente"
+)
 
-    "avg_order_value": st.sidebar.slider(
+avg_order_value = st.sidebar.slider(
     "Ticket promedio (gasto por pedido)",
     min_value=0.0,
     max_value=11000.0,
     value=75.0,
     step=10.0,
     help="Monto promedio que el cliente gasta en cada compra"
-    ),
+)
 
-    "tenure_days": st.sidebar.slider(
-        "Antigüedad del cliente (días)",
-        min_value=1,
-        max_value=750,
-        value=365,
-        help="Tiempo desde la primera compra"
-    ),
+tenure_days = st.sidebar.slider(
+    "Antigüedad del cliente (días)",
+    min_value=1,
+    max_value=750,
+    value=365,
+    help="Tiempo transcurrido desde la primera compra del cliente"
+)
 
-    "purchase_velocity": st.sidebar.slider(
-    "Velocidad de compra (compras por día)",
-    min_value=0.0,
-    max_value=1.0,
-    value=0.02,
-    step=0.01,
-    help="Frecuencia de compra dividida entre la antigüedad del cliente"
-    ),
+# -----------------------------------------
+# DERIVED FEATURE (AUTOMATIC)
+# -----------------------------------------
+purchase_velocity = frequency / tenure_days
+
+st.sidebar.markdown(
+    f"**Velocidad de compra (compras por día):** `{purchase_velocity:.4f}`"
+)
+
+# -----------------------------------------
+# INPUT DATAFRAME
+# -----------------------------------------
+input_data = {
+    "recency_days": recency_days,
+    "frequency": frequency,
+    "monetary": monetary,
+    "avg_order_value": avg_order_value,
+    "tenure_days": tenure_days,
+    "purchase_velocity": purchase_velocity,
 }
 
 input_df = pd.DataFrame([input_data])
@@ -131,27 +141,29 @@ if st.sidebar.button("🔮 Predict Customer Risk"):
     # BUSINESS LOGIC
     # -------------------------------------
     if churn_proba >= 0.6:
-        action = "🔥 Immediate retention action"
+        action = "🔥 Acción inmediata de retención"
     elif churn_proba >= THRESHOLD:
-        action = "⚠️ Monitor & targeted engagement"
+        action = "⚠️ Monitoreo y engagement dirigido"
     else:
-        action = "✅ No action required"
+        action = "✅ No se requiere acción"
 
     # -------------------------------------
     # OUTPUT
     # -------------------------------------
-    st.subheader("🧠 Prediction Results")
+    st.subheader("🧠 Resultados de la Predicción")
 
     col1, col2, col3 = st.columns(3)
 
-    col1.metric("Customer Segment", cluster_label)
-    col2.metric("Churn Probability", f"{churn_proba:.2%}")
-    col3.metric("Churn Risk", "YES" if churn_flag else "NO")
+    col1.metric("Segmento del Cliente", cluster_label)
+    col2.metric("Probabilidad de abandono", f"{churn_proba:.2%}")
+    col3.metric("Riesgo de abandono", "SÍ" if churn_flag else "NO")
 
-    st.markdown("### 🎯 Recommended Action")
+    st.markdown("### 🎯 Acción Recomendada")
     st.success(action)
 
-    st.caption(f"Threshold used: {THRESHOLD}")
+    st.caption(f"Threshold operativo utilizado: {THRESHOLD}")
+
+
 
 
 
