@@ -1,8 +1,3 @@
-
-
-
-
-
 # =========================================
 # STREAMLIT APP – CUSTOMER CHURN & SEGMENTS
 # =========================================
@@ -21,7 +16,7 @@ st.set_page_config(
 )
 
 st.title("📊 Customer Churn Intelligence Dashboard")
-st.markdown("**Customer Segmentation + Churn Prediction (ML-driven)**")
+st.markdown("**Segmentación de Clientes + Predicción de Abandono (ML orientado a negocio)**")
 
 # -----------------------------------------
 # PATHS (ROBUST FOR STREAMLIT CLOUD)
@@ -44,7 +39,7 @@ THRESHOLD = metadata.get("churn_threshold_recommended", 0.30)
 cluster_mapping = metadata.get("cluster_definitions", {})
 
 # -----------------------------------------
-# SIDEBAR INPUT
+# SIDEBAR INPUT (BUSINESS FRIENDLY)
 # -----------------------------------------
 st.sidebar.header("🛠 Ajuste de Variables del Cliente")
 
@@ -53,7 +48,7 @@ recency_days = st.sidebar.slider(
     min_value=0,
     max_value=750,
     value=90,
-    help="Cuántos días han pasado desde la última transacción del cliente"
+    help="Cantidad de días transcurridos desde la última transacción del cliente"
 )
 
 frequency = st.sidebar.slider(
@@ -91,21 +86,31 @@ tenure_days = st.sidebar.slider(
 )
 
 # -----------------------------------------
-# INPUT DATAFRAME
+# DERIVED FEATURE (INTERNAL – NOT USER INPUT)
+# -----------------------------------------
+# Feature derivada usada por el modelo y KMeans
+purchase_velocity = frequency / tenure_days
+
+st.sidebar.markdown(
+    f"**Velocidad de compra (calculada automáticamente):** `{purchase_velocity:.4f}`"
+)
+
+# -----------------------------------------
+# INPUT DATAFRAME (MATCHES TRAINING FEATURES)
 # -----------------------------------------
 input_df = pd.DataFrame([{
     "recency_days": recency_days,
     "frequency": frequency,
     "monetary": monetary,
     "avg_order_value": avg_order_value,
-    "tenure_days": tenure_days
+    "tenure_days": tenure_days,
+    "purchase_velocity": purchase_velocity
 }])
 
 # -----------------------------------------
 # PREDICTION
 # -----------------------------------------
-if st.sidebar.button("🔮 Predict Customer Risk"):
-
+if st.sidebar.button("🔮 Evaluar Cliente"):
     # -------------------------------
     # CLUSTER PREDICTION
     # -------------------------------
@@ -122,7 +127,7 @@ if st.sidebar.button("🔮 Predict Customer Risk"):
     # -------------------------------------
     # BUSINESS LOGIC
     # -------------------------------------
-    if churn_proba >= 0.6:
+    if churn_proba >= 0.60:
         action = "🔥 Acción inmediata de retención"
     elif churn_proba >= THRESHOLD:
         action = "⚠️ Monitoreo y engagement dirigido"
@@ -132,7 +137,7 @@ if st.sidebar.button("🔮 Predict Customer Risk"):
     # -------------------------------------
     # OUTPUT
     # -------------------------------------
-    st.subheader("🧠 Resultados de la Predicción")
+    st.subheader("🧠 Resultados de la Evaluación")
 
     col1, col2, col3 = st.columns(3)
 
@@ -144,6 +149,3 @@ if st.sidebar.button("🔮 Predict Customer Risk"):
     st.success(action)
 
     st.caption(f"Threshold operativo utilizado: {THRESHOLD}")
-
-
-
