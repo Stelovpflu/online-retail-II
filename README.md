@@ -1,7 +1,7 @@
-📦 Online Retail II – Customer Segmentation & Abandono (Churn) Prediction System
+## 📦 Online Retail II – Customer Segmentation & Abandono (Churn) Prediction System
 
 ---
-🔍 Descripción del Proyecto
+## 🔍 Descripción del Proyecto
 
 Proyecto end-to-end de Machine Learning orientado a negocio para segmentación de clientes y predicción de abandono, construido sobre datos transaccionales reales de retail.
 
@@ -18,7 +18,7 @@ Modelo predictivo optimizado por recall
 Artefactos listos para despliegue y consumo vía app o API
 
 ---
-🚀 Simulador 👉 Streamlit App
+## 🚀 Simulador 👉 Streamlit App
 
 https://sl-online-retail-2.streamlit.app
 
@@ -33,7 +33,7 @@ Predicción de probabilidad de abandono
 Recomendación de acción basada en un threshold alineado al negocio
 
 ---
-🎯 Objetivo de Negocio
+## 🎯 Objetivo de Negocio
 
 Detectar clientes con alta probabilidad de abandono
 
@@ -44,9 +44,9 @@ Reducir pérdidas futuras asociadas a inacción tardía
 Apoyar decisiones comerciales con modelos explicables
 
 ---
-🧠 Preparación de Datos
+## 🧠 Preparación de Datos
 
-## 📂Dataset: Online Retail II
+**📂Dataset: Online Retail II**
 
 El dataset **Online Retail II** no se incluye en este repositorio debido a las restricciones de tamaño de GitHub.
 
@@ -69,7 +69,7 @@ Definición de Abandono
 Un cliente se considera en abandono si no ha realizado compras en los últimos 90 días.
 
 ---
-🧠 Segmentación de Clientes
+## 🧠 Segmentación de Clientes
 
 Algoritmo: KMeans
 
@@ -90,7 +90,7 @@ Mid Value Drifting
 New / Unqualified
 
 ---
-🤖 Modelo Predictivo
+## 🤖 Modelo Predictivo
 
 Algoritmo: Gradient Boosting Classifier
 
@@ -101,7 +101,7 @@ Optimizado para maximizar recall en clientes en abandono
 Entrenamiento final utilizando toda la información disponible
 
 ---
-📊 Métricas Finales (Test)
+## 📊 Métricas Finales (Test)
 
 ROC AUC: ≈ 0.82
 
@@ -112,7 +112,7 @@ Precision (abandono): ≈ 0.66
 Trade-off alineado con un enfoque preventivo de retención.
 
 ---
-🎯 Decision Threshold
+## 🎯 Decision Threshold
 
 Threshold seleccionado: 0.30
 
@@ -125,7 +125,7 @@ Detectar abandono temprano
 Alineado con escenarios donde el costo de contacto es bajo frente al valor del cliente
 
 ---
-📦 Artefactos Generados
+## 📦 Artefactos Generados
 
 gb_churn_pipeline.pkl – Modelo predictivo
 
@@ -144,16 +144,17 @@ Batch scoring
 Dashboard ejecutivo
 
 ---
-⚠️ Notas
+## ⚠️ Notas
 
 Este repositorio contiene el código de inferencia y despliegue.
 El entrenamiento, validación y tuning del modelo forman parte del flujo de desarrollo offline.
 
 ---
-👤 Autor
+## 👤 Autor
 
 Steve Loveday
 
 Data Scientist – Business Analytics & Predictive Modeling
+
 
 
