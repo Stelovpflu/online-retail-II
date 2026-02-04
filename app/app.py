@@ -1,10 +1,14 @@
+
+
+
+
+
 # =========================================
 # STREAMLIT APP – CUSTOMER CHURN & SEGMENTS
 # =========================================
 
 import streamlit as st
 import pandas as pd
-import numpy as np
 import joblib
 from pathlib import Path
 
@@ -38,17 +42,6 @@ metadata = joblib.load(MODELS_DIR / "model_metadata.pkl")
 # -----------------------------------------
 THRESHOLD = metadata.get("churn_threshold_recommended", 0.30)
 cluster_mapping = metadata.get("cluster_definitions", {})
-features = metadata.get(
-    "features_used",
-    [
-        "recency_days",
-        "frequency",
-        "monetary",
-        "avg_order_value",
-        "tenure_days",
-        "purchase_velocity",
-    ],
-)
 
 # -----------------------------------------
 # SIDEBAR INPUT
@@ -97,24 +90,22 @@ tenure_days = st.sidebar.slider(
     help="Tiempo transcurrido desde la primera compra del cliente"
 )
 
-
 # -----------------------------------------
 # INPUT DATAFRAME
 # -----------------------------------------
-input_data = {
+input_df = pd.DataFrame([{
     "recency_days": recency_days,
     "frequency": frequency,
     "monetary": monetary,
     "avg_order_value": avg_order_value,
-    "tenure_days": tenure_days,
-}
-
-input_df = pd.DataFrame([input_data])
+    "tenure_days": tenure_days
+}])
 
 # -----------------------------------------
 # PREDICTION
 # -----------------------------------------
 if st.sidebar.button("🔮 Predict Customer Risk"):
+
     # -------------------------------
     # CLUSTER PREDICTION
     # -------------------------------
@@ -126,7 +117,7 @@ if st.sidebar.button("🔮 Predict Customer Risk"):
     # CHURN PREDICTION
     # -------------------------------
     churn_proba = gb_pipeline.predict_proba(input_df)[0, 1]
-    churn_flag = int(churn_proba >= THRESHOLD)
+    churn_flag = churn_proba >= THRESHOLD
 
     # -------------------------------------
     # BUSINESS LOGIC
@@ -153,9 +144,6 @@ if st.sidebar.button("🔮 Predict Customer Risk"):
     st.success(action)
 
     st.caption(f"Threshold operativo utilizado: {THRESHOLD}")
-
-
-
 
 
 
