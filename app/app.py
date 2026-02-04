@@ -65,11 +65,11 @@ input_data = {
     ),
 
     "frequency": st.sidebar.slider(
-        "Frecuencia de compra",
-        min_value=1,
-        max_value=400,
-        value=5,
-        help="Número total de compras realizadas por el cliente"
+    "Frecuencia de compra (n° de pedidos)",
+    min_value=1,
+    max_value=400,
+    value=5,
+    help="Número total de compras realizadas por el cliente (conteo absoluto)"
     ),
 
     "monetary": st.sidebar.slider(
@@ -82,12 +82,12 @@ input_data = {
     ),
 
     "avg_order_value": st.sidebar.slider(
-        "Ticket promedio",
-        min_value=0.0,
-        max_value=11000.0,
-        value=75.0,
-        step=10.0,
-        help="Valor promedio por pedido"
+    "Ticket promedio (gasto por pedido)",
+    min_value=0.0,
+    max_value=11000.0,
+    value=75.0,
+    step=10.0,
+    help="Monto promedio que el cliente gasta en cada compra"
     ),
 
     "tenure_days": st.sidebar.slider(
@@ -99,17 +99,14 @@ input_data = {
     ),
 
     "purchase_velocity": st.sidebar.slider(
-        "Velocidad de compra",
-        min_value=0.0,
-        max_value=1.0,
-        value=0.02,
-        step=0.01,
-        help="Relación entre frecuencia de compra y antigüedad"
+    "Velocidad de compra (compras por día)",
+    min_value=0.0,
+    max_value=1.0,
+    value=0.02,
+    step=0.01,
+    help="Frecuencia de compra dividida entre la antigüedad del cliente"
     ),
 }
-
-input_df = pd.DataFrame([input_data])
-
 
 input_df = pd.DataFrame([input_data])
 
@@ -155,5 +152,6 @@ if st.sidebar.button("🔮 Predict Customer Risk"):
     st.success(action)
 
     st.caption(f"Threshold used: {THRESHOLD}")
+
 
 
