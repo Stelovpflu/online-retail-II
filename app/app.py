@@ -53,49 +53,63 @@ features = metadata.get(
 # -----------------------------------------
 # SIDEBAR INPUT
 # -----------------------------------------
-st.sidebar.header("🛠 Ajusta las variables")
+st.sidebar.header("🛠 Ajuste de Variables del Cliente")
 
 input_data = {
     "recency_days": st.sidebar.slider(
-        "Recency (days since last purchase)",
+        "Días desde la última compra",
         min_value=0,
         max_value=750,
-        value=90
+        value=90,
+        help="Cuántos días han pasado desde la última transacción del cliente"
     ),
+
     "frequency": st.sidebar.slider(
-        "Purchase Frequency",
+        "Frecuencia de compra",
         min_value=1,
         max_value=400,
-        value=5
+        value=5,
+        help="Número total de compras realizadas por el cliente"
     ),
+
     "monetary": st.sidebar.slider(
-        "Total Spend",
+        "Gasto total del cliente",
         min_value=0.0,
         max_value=60000.0,
         value=500.0,
-        step=50.0
+        step=50.0,
+        help="Monto total gastado por el cliente"
     ),
+
     "avg_order_value": st.sidebar.slider(
-        "Average Order Value",
+        "Ticket promedio",
         min_value=0.0,
         max_value=11000.0,
         value=75.0,
-        step=10.0
+        step=10.0,
+        help="Valor promedio por pedido"
     ),
+
     "tenure_days": st.sidebar.slider(
-        "Customer Tenure (days)",
+        "Antigüedad del cliente (días)",
         min_value=1,
         max_value=750,
-        value=365
+        value=365,
+        help="Tiempo desde la primera compra"
     ),
+
     "purchase_velocity": st.sidebar.slider(
-        "Purchase Velocity",
+        "Velocidad de compra",
         min_value=0.0,
         max_value=1.0,
         value=0.02,
-        step=0.01
+        step=0.01,
+        help="Relación entre frecuencia de compra y antigüedad"
     ),
 }
+
+input_df = pd.DataFrame([input_data])
+
 
 input_df = pd.DataFrame([input_data])
 
@@ -141,4 +155,5 @@ if st.sidebar.button("🔮 Predict Customer Risk"):
     st.success(action)
 
     st.caption(f"Threshold used: {THRESHOLD}")
+
 
