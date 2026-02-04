@@ -21,10 +21,10 @@ st.markdown("**Customer Segmentation + Churn Prediction (ML-driven)**")
 # -----------------------------------------
 # LOAD MODELS
 # -----------------------------------------
-gb_pipeline = joblib.load("gb_churn_pipeline.pkl")
-kmeans = joblib.load("kmeans_customer_segmentation.pkl")
-kmeans_scaler = joblib.load("kmeans_scaler.pkl")
-metadata = joblib.load("model_metadata.pkl")
+gb_pipeline = joblib.load("app/gb_churn_pipeline.pkl")
+kmeans = joblib.load("app/kmeans_customer_segmentation.pkl")
+kmeans_scaler = joblib.load("app/kmeans_scaler.pkl")
+metadata = joblib.load("app/model_metadata.pkl")
 
 THRESHOLD = metadata["churn_threshold_recommended"]
 cluster_mapping = metadata["cluster_definitions"]
@@ -81,5 +81,6 @@ if st.sidebar.button("🔮 Predict Customer Risk"):
 
     st.markdown(f"### 🎯 Recommended Action")
     st.success(action)
+
 
     st.caption(f"Threshold used: {THRESHOLD}")
