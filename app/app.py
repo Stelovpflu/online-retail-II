@@ -53,15 +53,49 @@ features = metadata.get(
 # -----------------------------------------
 # SIDEBAR INPUT
 # -----------------------------------------
-st.sidebar.header("🔢 Customer Features")
+st.sidebar.header("🛠 Ajusta las variables")
 
-input_data = {}
-for feature in features:
-    input_data[feature] = st.sidebar.number_input(
-        feature,
+input_data = {
+    "recency_days": st.sidebar.slider(
+        "Recency (days since last purchase)",
+        min_value=0,
+        max_value=750,
+        value=90
+    ),
+    "frequency": st.sidebar.slider(
+        "Purchase Frequency",
+        min_value=1,
+        max_value=400,
+        value=5
+    ),
+    "monetary": st.sidebar.slider(
+        "Total Spend",
         min_value=0.0,
-        value=10.0
-    )
+        max_value=60000.0,
+        value=500.0,
+        step=50.0
+    ),
+    "avg_order_value": st.sidebar.slider(
+        "Average Order Value",
+        min_value=0.0,
+        max_value=11000.0,
+        value=75.0,
+        step=10.0
+    ),
+    "tenure_days": st.sidebar.slider(
+        "Customer Tenure (days)",
+        min_value=1,
+        max_value=750,
+        value=365
+    ),
+    "purchase_velocity": st.sidebar.slider(
+        "Purchase Velocity",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.02,
+        step=0.01
+    ),
+}
 
 input_df = pd.DataFrame([input_data])
 
@@ -107,3 +141,4 @@ if st.sidebar.button("🔮 Predict Customer Risk"):
     st.success(action)
 
     st.caption(f"Threshold used: {THRESHOLD}")
+
