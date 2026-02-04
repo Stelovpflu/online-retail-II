@@ -46,7 +46,17 @@ Apoyar decisiones comerciales con modelos explicables
 ---
 🧠 Preparación de Datos
 
-Dataset: Online Retail II
+## 📂Dataset: Online Retail II
+
+El dataset **Online Retail II** no se incluye en este repositorio debido a las restricciones de tamaño de GitHub.
+
+Puede descargarse desde la fuente original:
+
+UCI Machine Learning Repository – Online Retail II
+
+El proyecto utiliza datos agregados a nivel cliente; el dataset completo solo es necesario para el proceso de entrenamiento offline.
+
+Sobre el dataset:
 
 Transacciones inválidas filtradas (precio y cantidad positivos)
 
@@ -145,4 +155,5 @@ El entrenamiento, validación y tuning del modelo forman parte del flujo de desa
 Steve Loveday
 
 Data Scientist – Business Analytics & Predictive Modeling
+
 
