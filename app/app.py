@@ -6,6 +6,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
+from pathlib import Path
 
 # -----------------------------------------
 # CONFIG
@@ -19,16 +20,35 @@ st.title("📊 Customer Churn Intelligence Dashboard")
 st.markdown("**Customer Segmentation + Churn Prediction (ML-driven)**")
 
 # -----------------------------------------
+# PATHS (ROBUST FOR STREAMLIT CLOUD)
+# -----------------------------------------
+BASE_DIR = Path(__file__).resolve().parent.parent
+MODELS_DIR = BASE_DIR / "models"
+
+# -----------------------------------------
 # LOAD MODELS
 # -----------------------------------------
-gb_pipeline = joblib.load("app/gb_churn_pipeline.pkl")
-kmeans = joblib.load("app/kmeans_customer_segmentation.pkl")
-kmeans_scaler = joblib.load("app/kmeans_scaler.pkl")
-metadata = joblib.load("app/model_metadata.pkl")
+gb_pipeline = joblib.load(MODELS_DIR / "gb_churn_pipeline.pkl")
+kmeans = joblib.load(MODELS_DIR / "kmeans_customer_segmentation.pkl")
+kmeans_scaler = joblib.load(MODELS_DIR / "kmeans_scaler.pkl")
+metadata = joblib.load(MODELS_DIR / "model_metadata.pkl")
 
-THRESHOLD = metadata["churn_threshold_recommended"]
-cluster_mapping = metadata["cluster_definitions"]
-features = metadata["features_used"]
+# -----------------------------------------
+# METADATA (SAFE ACCESS)
+# -----------------------------------------
+THRESHOLD = metadata.get("churn_threshold_recommended", 0.30)
+cluster_mapping = metadata.get("cluster_definitions", {})
+features = metadata.get(
+    "features_used",
+    [
+        "recency_days",
+        "frequency",
+        "monetary",
+        "avg_order_value",
+        "tenure_days",
+        "purchase_velocity",
+    ],
+)
 
 # -----------------------------------------
 # SIDEBAR INPUT
@@ -49,12 +69,16 @@ input_df = pd.DataFrame([input_data])
 # PREDICTION
 # -----------------------------------------
 if st.sidebar.button("🔮 Predict Customer Risk"):
-    # Cluster prediction
+    # -------------------------------
+    # CLUSTER PREDICTION
+    # -------------------------------
     X_scaled = kmeans_scaler.transform(input_df)
     cluster_id = kmeans.predict(X_scaled)[0]
-    cluster_label = cluster_mapping[cluster_id]
+    cluster_label = cluster_mapping.get(cluster_id, f"Cluster {cluster_id}")
 
-    # Churn prediction
+    # -------------------------------
+    # CHURN PREDICTION
+    # -------------------------------
     churn_proba = gb_pipeline.predict_proba(input_df)[0, 1]
     churn_flag = int(churn_proba >= THRESHOLD)
 
@@ -79,8 +103,7 @@ if st.sidebar.button("🔮 Predict Customer Risk"):
     col2.metric("Churn Probability", f"{churn_proba:.2%}")
     col3.metric("Churn Risk", "YES" if churn_flag else "NO")
 
-    st.markdown(f"### 🎯 Recommended Action")
+    st.markdown("### 🎯 Recommended Action")
     st.success(action)
-
 
     st.caption(f"Threshold used: {THRESHOLD}")
