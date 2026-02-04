@@ -97,14 +97,6 @@ tenure_days = st.sidebar.slider(
     help="Tiempo transcurrido desde la primera compra del cliente"
 )
 
-# -----------------------------------------
-# DERIVED FEATURE (AUTOMATIC)
-# -----------------------------------------
-purchase_velocity = frequency / tenure_days
-
-st.sidebar.markdown(
-    f"**Velocidad de compra (compras por día):** `{purchase_velocity:.4f}`"
-)
 
 # -----------------------------------------
 # INPUT DATAFRAME
@@ -115,7 +107,6 @@ input_data = {
     "monetary": monetary,
     "avg_order_value": avg_order_value,
     "tenure_days": tenure_days,
-    "purchase_velocity": purchase_velocity,
 }
 
 input_df = pd.DataFrame([input_data])
@@ -162,6 +153,7 @@ if st.sidebar.button("🔮 Predict Customer Risk"):
     st.success(action)
 
     st.caption(f"Threshold operativo utilizado: {THRESHOLD}")
+
 
 
 
